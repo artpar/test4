@@ -1,0 +1,22 @@
+node_modules
+bower_components
+js/dependencies.js
+dist/dependencies.js
+js/models
+*-nogit
+*-nogit.*
+
+demo-*/
+evol-olive/
+demo/demo-data.js
+dico/pix/
+
+# Windows stuff
+Thumbs.db
+Desktop.ini
+
+# Mac stuff
+.DS_Store
+
+# WebStorm stuff
+.idea

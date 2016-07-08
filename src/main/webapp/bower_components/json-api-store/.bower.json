@@ -1,0 +1,25 @@
+{
+  "name": "json-api-store",
+  "version": "0.7.0",
+  "homepage": "https://github.com/haydn/json-api-store",
+  "authors": [
+    "Haydn Ewers <haydn@particlesystem.com>"
+  ],
+  "description": "A lightweight library for using JSON API in the browser.",
+  "main": "dist/store.prod.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "_release": "0.7.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.7.0",
+    "commit": "0cda0643101d8c7ab50df8efa8ec07ae8d99fa9a"
+  },
+  "_source": "https://github.com/haydn/json-api-store.git",
+  "_target": "^0.7.0",
+  "_originalSource": "json-api-store"
+}

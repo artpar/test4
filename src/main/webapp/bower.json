@@ -1,0 +1,21 @@
+{
+  "name": "webapp",
+  "homepage": "https://github.com/artpar/ta2",
+  "authors": [
+    "artpar <artpar@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "evolutility": "https://github.com/artpar/evolutility.git",
+    "json-api-store": "^0.7.0"
+  }
+}

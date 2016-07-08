@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+
+if [ $(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/') != "master" ]; then
+  echo >&2 "Looks like you're not on the master branch. Checkout master and run this script."
+  exit 1
+fi
+
+if [[ -n $(git status --porcelain 2> /dev/null) ]]; then
+  echo >&2 "Looks like you're in a dirty head state. Clean-up un-committed files before and run this script again."
+  exit 1
+fi
+
+echo "$ git pull"
+git pull
+
+echo "$ npm install"
+npm install
+
+echo "$ npm test node && npm test browser"
+npm test node && npm test browser
+
+if [ $? -ne 0 ]; then
+  echo >&2 "Looks like there are failing tests. Make sure all tests pass and run this script again."
+  exit 1
+fi
+
+echo "$ eslint --quiet src"
+eslint --quiet src
+
+if [ $? -ne 0 ]; then
+  echo >&2 "Looks like there are linting errors. Make sure all errors are cleaned-up and run this script again."
+  exit 1
+fi
+
+echo "Existing releases:"
+git tag -l
+
+read -p "Enter the version number for this release (eg '1.4.5'): " version
+
+echo "Building docs..."
+npm run docs
+echo "Building dist..."
+npm run build
+echo "Updating NPM and Bower manifests..."
+sed -i.bak -E "s/\"version\": \"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"$version\"/" package.json
+rm package.json.bak
+sed -i.bak -E "s/\"version\": \"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"$version\"/" bower.json
+rm bower.json.bak
+
+read -p "Are you sure you want to release v$version? (yes/no) " confirm
+
+if [ $confirm != "yes" ]; then
+  echo "Aborting."
+  exit 0
+fi
+
+echo "$ git add ."
+git add .
+echo "$ git commit -a -m \"Release v$version.\""
+git commit -a -m "Release v$version."
+echo "$ git tag \"v$version\""
+git tag "v$version"
+echo "$ git push"
+git push
+echo "$ git push --tags"
+git push --tags
+echo "$ npm publish"
+npm publish
+
+echo "Updating the website..."
+
+tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/release.XXXX")
+
+# Copy dist, docs & example to a temp dir.
+cp -R dist "$tmpdir/dist"
+cp -R docs "$tmpdir/docs"
+cp -R example "$tmpdir/example"
+# Checkout the GitHub pages branch.
+echo "$ git checkout gh-pages"
+git checkout gh-pages
+# Delete the current dist & example dirs.
+rm -r dist example
+# Copy across the new dist, docs & example dirs.
+cp -R "$tmpdir"/dist dist
+cp -R "$tmpdir"/dist "releases/v$version"
+cp -R "$tmpdir"/docs "docs/v$version"
+cp -R "$tmpdir"/example example
+# Clean-up the temp dir.
+rm -r $tmpdir
+# Fix mentions of the version number.
+sed -i.bak -E "s/v[0-9]+\.[0-9]+\.[0-9]+/v$version/g" index.html
+rm index.html.bak
+# Add, commit & push.
+echo "$ git add ."
+git add .
+echo "$ git commit -a -m \"Release v$version.\""
+git commit -a -m "Release v$version."
+echo "$ git push"
+git push
+
+git checkout master
+
+echo
+echo "Done. All that's left to do is add details to the release notes on GitHub."
+echo

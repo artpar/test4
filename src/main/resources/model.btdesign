@@ -1,0 +1,88 @@
+Application test4 {
+	basePackage=test4
+	Module main {
+		Entity Terr { 
+			scaffold
+			String name
+			String state_
+			Integer permission
+			- @UserAccount useraccount fetch="eager" nullable
+			- @UserGroup usergroup fetch="eager" nullable
+		}
+		Entity City { 
+			scaffold
+			String name
+			String state_
+			Integer permission
+			- @Terr terr
+			- @UserAccount useraccount fetch="eager" nullable
+			- @UserGroup usergroup fetch="eager" nullable
+		}
+		Entity Destination { 
+			scaffold
+			String name
+			String state_
+			Integer permission
+			- @City city
+			- @UserAccount useraccount fetch="eager" nullable
+			- @UserGroup usergroup fetch="eager" nullable
+		}
+		Resource DestinationResource {
+			scaffold
+		}
+		Entity Hotel { 
+			scaffold
+			String name
+			String state_
+			Integer permission
+			- @Destination destination
+			- @UserAccount useraccount fetch="eager" nullable
+			- @UserGroup usergroup fetch="eager" nullable
+		}
+		Entity Booking { 
+			scaffold
+			Date startDate
+			Date endDate
+			Integer roomCount
+			String state_
+			Integer permission
+			- @Hotel hotel
+			- @UserAccount useraccount fetch="eager" nullable
+			- @UserGroup usergroup fetch="eager" nullable
+		}
+		Entity World { 
+			scaffold
+			String name
+			Integer defaultpermission
+			String state_
+			Integer permission
+			- @UserAccount useraccount fetch="eager" nullable
+			- @UserGroup usergroup fetch="eager" nullable
+		}
+		Entity Role { 
+			scaffold
+			String name
+			String state_
+			Integer permission
+			- @UserAccount useraccount fetch="eager" nullable
+			- @UserGroup usergroup fetch="eager" nullable
+		}
+		Entity UserGroup { 
+			scaffold
+			String name
+			String state_
+			Integer permission
+			- @UserAccount useraccount fetch="eager" nullable
+			- @UserGroup usergroup fetch="eager" nullable
+		}
+		Entity UserAccount { 
+			scaffold
+			String password
+			String state_
+			Integer permission
+		}
+		Resource EmptyResource {
+			String empty return="front/overview";
+		}
+	}
+}

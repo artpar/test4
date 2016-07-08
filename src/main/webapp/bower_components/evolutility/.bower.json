@@ -1,0 +1,35 @@
+{
+  "name": "evolutility",
+  "version": "1.1.3",
+  "description": "UI which changes form, volume and structure to adapt to your data.",
+  "main": [
+    "dist/evolutility.min.js",
+    "dist/css/evolutility.min.css"
+  ],
+  "homepage": "http://evoluteur.github.io/evolutility/",
+  "dependencies": {
+    "jquery": "2.1.4",
+    "backbone": "1.2.3",
+    "backbone.localStorage": "v1.1.16",
+    "underscore": "1.8.3",
+    "d3": "3.5.6",
+    "papaparse": "4.1.0",
+    "bootstrap": "3.3.6",
+    "bootstrap-datepicker": "1.5.0",
+    "select2": "3.5.2",
+    "toastr": "2.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/evoluteur/evolutility.git"
+  },
+  "_release": "1.1.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.3",
+    "commit": "2627ef885a88e363a1da24a75938309d7502cd1d"
+  },
+  "_source": "https://github.com/artpar/evolutility.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/artpar/evolutility.git"
+}
